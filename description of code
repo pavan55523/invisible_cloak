@@ -1,10 +1,9 @@
-Importing all the required libraries
-____________________________________
+# Importing all the required libraries
 import cv2
 import numpy as np
 import time
-____________________________________
-Extracting the static background frame
+
+# Extracting the static background frame
 Now as explained in the readme, We will replace the current frame pixels corresponding to the cloth with the background pixels to generate the effect of an invisibility cloak. For this we need to store the frame of a static background.
 
 # Creating an VideoCapture object
@@ -17,7 +16,6 @@ time.sleep(3)
 background=0
 for i in range(30):
 	ret,background = cap.read()
-  ______________________________________________________
 
 # Laterally invert the image / flip the image.
 background = np.flip(background,axis=1)
@@ -69,6 +67,6 @@ mask = mask0 + mask
 This is also a simple example of operator overloading of +.
 
 mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5,5),np.uint8)) This line of code removes small regions of false detection which will avoid random glitches in the final output.
-___________________________________________________________________________
+
 Here's the trick !!
 img[np.where(mask==255)] = background[np.where(mask==255)] What we do in this line is quite simple. We access all the pixels which have value of 255 in the final mask (The pixels corresponding to the detected red colour), and we replace the pixel values with the pixel values of respective coordinates in the background frame. That's the trick. View the gif Pictures to understand what is happening.
